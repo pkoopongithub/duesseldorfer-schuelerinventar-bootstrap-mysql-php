@@ -1,0 +1,47 @@
+﻿.schrift {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+}
+
+.bg {
+	background-size: 100%;
+	background-position: top;
+	background-image: url('glockenkurve.svg');
+	background-repeat: repeat-y;
+}
+a:link {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size: 10pt;
+color: 4AA1CC;
+text-decoration: none;
+}
+
+a:hover  {
+color: 3D98C3;
+font-size: 10pt;
+font-family: Arial, Verdana, Helvetica, sans-serif;
+text-decoration: none;
+}
+
+a:active {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size: 10pt;
+color: 4597BE;
+text-decoration: none;
+}
+
+a:visited  {
+color: 294959;
+font-size: 10pt;
+font-family: Arial, Verdana, Helvetica, sans-serif;
+text-decoration: none;
+}
+input {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+}
+.button {
+	border: thin solid #999999;
+}
