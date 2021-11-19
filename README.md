@@ -47,3 +47,11 @@ I look forward to scientific reanalyses and further development teams. I am happ
 Purpose of the SPSS and R files available. I am happy to provide the source code of the program for further development
 
 (PHP, MySQL, Xcode, Android Studio, Xamarin, Lazarus).
+
+zusätzlich wird Bootstrap benötigt:
+Bootstrap is also required:
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
