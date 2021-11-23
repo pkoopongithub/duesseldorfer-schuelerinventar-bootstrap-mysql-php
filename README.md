@@ -1,5 +1,6 @@
-# duesseldorfer-schuelerinventar-bootstrap
-psychometrics
+# duesseldorfer-schuelerinventar-spss-R
+SPSS R
+# duesseldorfer-schuelerinventar
 GERMAN
 Quelloffenes Persönlichkeitsinventar
 
@@ -20,33 +21,9 @@ Zwecken die SPSS- und R-Dateien zur Verfügung. Zur Weiterentwicklung stelle ich
 (PHP, MySQL, Xcode, Android Studio, Xamarin, Lazarus).
 
 ENGLISH
-Open source personality inventory
+Open source personality inventory Since 2012, the Düsseldorf school inventory, which is open source, has served as a learning environment for social science students and trainees at Market and social research, application development and data and process analysis. The Düsseldorf student inventory is an open, valid, precise and independent personality inventory for students of the transition classes (valid, reliable, objective). The Düsseldorf student inventory is open to development. If you are involved in an open source project, you know the intense, personal commitment that makes it a pleasure to succeed. Many users know and appreciate this. However, not everything can be achieved using the developers' own strength. especially since only the pure interest in the topic or the handling of technologies provides the basis. However, not every user has the skills and the time to support a project. Verbal feedback in the form of error messages is very helpful. For others, material support can be the only option participate in open source. I would be happy to talk to you about your type of support. I look forward to scientific reanalyses and further development teams. I am happy to provide scientific Purpose of the SPSS and R files available. I am happy to provide the source code of the program for further development (PHP, MySQL, Xcode, Android Studio, Xamarin, Lazarus). 
 
-Since 2012, the Düsseldorf school inventory, which is open source, has served as a learning environment for social science students and trainees at
-
-Market and social research, application development and data and process analysis.
-
-The Düsseldorf student inventory is an open, valid, precise and independent personality inventory for students
-
-of the transition classes (valid, reliable, objective). The Düsseldorf student inventory is open to development.
-
-If you are involved in an open source project, you know the intense, personal commitment that makes it a pleasure to succeed.
-
-Many users know and appreciate this. However, not everything can be achieved using the developers' own strength.
-
-especially since only the pure interest in the topic or the handling of technologies provides the basis.
-
-However, not every user has the skills and the time to support a project.
-
-Verbal feedback in the form of error messages is very helpful. For others, material support can be the only option
-
-participate in open source. I would be happy to talk to you about your type of support.
-
-I look forward to scientific reanalyses and further development teams. I am happy to provide scientific
-
-Purpose of the SPSS and R files available. I am happy to provide the source code of the program for further development
-
-(PHP, MySQL, Xcode, Android Studio, Xamarin, Lazarus).
+#The calibration sample is made up of students from the German education system with German language skills. A translation of the items formulated in German into another language only makes sense if a new calibration sample is drawn for this language and the educational system there.
 
 zusätzlich wird Bootstrap benötigt:
 Bootstrap is also required:
