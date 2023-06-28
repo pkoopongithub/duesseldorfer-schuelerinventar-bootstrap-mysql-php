@@ -5,12 +5,9 @@
     $host          = "localhost";                //Connectvariablen
     $user          = "root";
     $pass          = "";
-    $db            = "db34406101";
+    $db            = "";
 */
-    $host          = "rdbms.strato.de";                //Connectvariablen
-    $user          = "U3517771";
-    $pass          = "dBkNpI1000Jn";
-    $db            = "DB3517771";
+
     
     
 // variablenbezeichner
