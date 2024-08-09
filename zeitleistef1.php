@@ -3,10 +3,10 @@
 //ini_set('display_errors', 1);
 
 // Database configuration
-$host = 'rdbms.strato.de';
-$dbname = 'DB3517771';
-$user = 'U3517771';
-$pass = 'dBkNpI1000Jn';
+$host = '';
+$dbname = '';
+$user = '';
+$pass = '';
 
 // Connect to the database
 try {
