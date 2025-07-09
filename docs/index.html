@@ -2,139 +2,81 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Willkommen bei pkoopongithub</title>
+  <title>Düsk – Düsseldorfer Schülerinventar</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: system-ui, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #f8f9fa;
-      color: #212529;
+      padding: 20px;
+      background-color: #f2f2f2;
     }
-
-    header {
-      position: relative;
-      text-align: center;
-    }
-
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    nav {
-      background-color: #343a40;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0.5rem 1rem;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0.5rem 1rem;
-      font-weight: bold;
-    }
-
-    nav a:focus,
-    nav a:hover {
-      text-decoration: underline;
-      outline: none;
-    }
-
     .container {
-      max-width: 1140px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    .row {
       display: flex;
       flex-wrap: wrap;
-      margin: -0.5rem;
+      justify-content: space-around;
+      gap: 20px;
     }
-
-    .col {
-      flex: 1 1 100%;
-      padding: 0.5rem;
-    }
-
-    @media (min-width: 768px) {
-      .col-md-4 {
-        flex: 0 0 33.3333%;
-      }
-    }
-
-    .p-3 {
-      padding: 1rem;
-    }
-
-    .mb-4 {
-      margin-bottom: 1.5rem;
-    }
-
-    .bg-light {
-      background-color: #f1f1f1;
-    }
-
-    .text-center {
+    .box {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      width: 30%;
+      min-width: 280px;
+      padding: 15px;
+      box-sizing: border-box;
       text-align: center;
     }
-
-    .btn {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 0.25rem;
-      text-decoration: none;
-      cursor: pointer;
+    .box img {
+      max-width: 100%;
+      border-radius: 6px;
     }
-
-    .btn:hover {
-      background-color: #0056b3;
+    .box h2 {
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #004466;
+    }
+    .box p {
+      font-size: 0.95em;
+      color: #333;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <img src="img/headerbild.jpeg" alt="Headerbild">
-  </header>
-
-  <nav>
-    <a href="https://pkoopongithub.github.io/">Home</a>
-    <a href="https://pkoopongithub.github.io/duesseldorfer-schuelerinventar-bootstrap-mysql-php/">Düsk</a>
-    <a href="https://pkoopongithub.github.io/algorithmisch-rekursive-sequenzanalyse/">Ars</a>
-    <a href="https://pkoopongithub.github.io/Projekt_Pompeji/">Pompeji</a>
-  </nav>
-
+  <h1>Düsk – Düsseldorfer Schülerinventar</h1>
   <div class="container">
-    <h1 class="mb-4 text-center">Willkommen</h1>
-
-    <div class="row">
-      <div class="col col-md-4">
-        <div class="p-3 bg-light text-center">Inhalt A</div>
-      </div>
-      <div class="col col-md-4">
-        <div class="p-3 bg-light text-center">Inhalt B</div>
-      </div>
-      <div class="col col-md-4">
-        <div class="p-3 bg-light text-center">Inhalt C</div>
-      </div>
+    
+    <!-- Container A: PHP-Version -->
+    <div class="box" id="A">
+      <img src="img/DueskPHPprofilansicht.jpg" alt="Düsk PHP-Profilansicht">
+      <h2>Web-App (PHP-Version)</h2>
+      <p>
+        Die browserbasierte PHP-Version ermöglicht eine differenzierte Selbsteinschätzung und Fremdeinschätzung von Schüler:innen
+        anhand von sechs Kompetenzbereichen. Ergebnisse werden grafisch und tabellarisch aufbereitet.
+        Die Anwendung speichert die Daten in einer MySQL-Datenbank und erlaubt den Export.
+      </p>
     </div>
 
-    <!--<div class="text-center" style="margin-top: 2rem;">
-      <a href="#" class="btn">Mehr erfahren</a>
-    </div>-->
-  </div>
+    <!-- Container B: Android-Version -->
+    <div class="box" id="B">
+      <img src="img/DueskAndriod.png" alt="Düsk Android-Version">
+      <h2>Android-App</h2>
+      <p>
+        Die Android-App erlaubt das Ausfüllen des Schülerinventars auf mobilen Geräten.
+        Per Fingertipp werden Items bewertet, das System errechnet die Kompetenzprofile in Echtzeit.
+        Die App ist ideal für mobile Schulumgebungen und Offline-Erhebungen.
+      </p>
+    </div>
 
+    <!-- Container C: iOS-Version -->
+    <div class="box" id="C">
+      <img src="img/DueskIosVersion.png" alt="Düsk iOS-Version">
+      <h2>iOS-Version</h2>
+      <p>
+        Die iOS-Version des Düsseldorfer Schülerinventars ist in Entwicklung und wird eine native Umsetzung
+        für iPads und iPhones bieten. Geplant ist die Integration der vollen Funktionalität der PHP- und Android-Version.
+      </p>
+    </div>
+
+  </div>
 </body>
 </html>
