@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Willkommen bei pkoopongithub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #212529;
+    }
+
+    header {
+      position: relative;
+      text-align: center;
+    }
+
+    header img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    nav {
+      background-color: #343a40;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0.5rem 1rem;
+      font-weight: bold;
+    }
+
+    nav a:focus,
+    nav a:hover {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: -0.5rem;
+    }
+
+    .col {
+      flex: 1 1 100%;
+      padding: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .col-md-4 {
+        flex: 0 0 33.3333%;
+      }
+    }
+
+    .p-3 {
+      padding: 1rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1.5rem;
+    }
+
+    .bg-light {
+      background-color: #f1f1f1;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="img/headerbild.jpeg" alt="Headerbild">
+  </header>
+
+  <nav>
+    <a href="https://pkoopongithub.github.io/">Home</a>
+    <a href="https://pkoopongithub.github.io/duesseldorfer-schuelerinventar-bootstrap-mysql-php/">Düsk</a>
+    <a href="https://pkoopongithub.github.io/algorithmisch-rekursive-sequenzanalyse/">Ars</a>
+    <a href="https://pkoopongithub.github.io/Projekt_Pompeji/">Pompeji</a>
+  </nav>
+
+  <div class="container">
+    <h1 class="mb-4 text-center">Willkommen</h1>
+
+    <div class="row">
+      <div class="col col-md-4">
+        <div class="p-3 bg-light text-center">Inhalt A</div>
+      </div>
+      <div class="col col-md-4">
+        <div class="p-3 bg-light text-center">Inhalt B</div>
+      </div>
+      <div class="col col-md-4">
+        <div class="p-3 bg-light text-center">Inhalt C</div>
+      </div>
+    </div>
+
+    <!--<div class="text-center" style="margin-top: 2rem;">
+      <a href="#" class="btn">Mehr erfahren</a>
+    </div>-->
+  </div>
+
+</body>
+</html>
