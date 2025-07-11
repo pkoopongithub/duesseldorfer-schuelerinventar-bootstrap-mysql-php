@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Willkommen bei pkoopongithub</title>
   <style>
     * {
@@ -26,15 +26,15 @@
       height: auto;
       display: block;
     }
-      footer {
-    background-color: #343a40;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-    font-size: 0.9rem;
-  }
 
+    footer {
+      background-color: #343a40;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
 
     nav {
       background-color: #343a40;
@@ -88,12 +88,26 @@
       margin-bottom: 1.5rem;
     }
 
+    /* Hintergrund weiß für Text-Container */
     .bg-light {
-      background-color: #f1f1f1;
+      background-color: #ffffff;
+      text-align: justify; /* Blocksatz für Fließtext */
     }
 
-    .text-center {
+    /* Überschriften zentriert in den hellen Boxen */
+    .bg-light h2 {
       text-align: center;
+      margin-top: 0;
+    }
+
+    /* Bilder nicht im Blocksatz */
+    .bg-light img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
     }
 
     .btn {
@@ -110,12 +124,16 @@
     .btn:hover {
       background-color: #0056b3;
     }
+
+    .text-center {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <img src="img/headerbild.jpeg" alt="Headerbild">
+    <img src="img/headerbild.jpeg" alt="Headerbild" />
   </header>
 
   <nav>
@@ -128,67 +146,67 @@
   <div class="container">
     <h1 class="mb-4 text-center">Willkommen Welcome</h1>
 
-<div class="row">
-  <div class="col col-md-4">
-    <div class="p-3 bg-light text-center">
-      <img src="img/DueskPHPprofilansicht.jpg" alt="Düsk PHP-Profilansicht">
-      <h2>Web-App (PHP-Version)</h2>
-      <p>
-        Die browserbasierte PHP-Version ermöglicht eine differenzierte Selbsteinschätzung und Fremdeinschätzung von Schüler:innen
-        anhand von sechs Kompetenzbereichen. Ergebnisse werden grafisch und tabellarisch aufbereitet.
-        Die Anwendung speichert die Daten in einer MySQL-Datenbank und erlaubt den Export.
-      </p>
-      <p>The browser-based PHP version allows for a differentiated self-assessment and external assessment of students based on six competence areas. Results are presented graphically and in tabular form. The application stores the data in a MySQL database and allows for export.</p>
-      
+    <div class="row">
+      <div class="col col-md-4">
+        <div class="p-3 bg-light">
+          <img src="img/DueskPHPprofilansicht.jpg" alt="Düsk PHP-Profilansicht" />
+          <h2>Web-App (PHP-Version)</h2>
+          <p>
+            Die browserbasierte PHP-Version ermöglicht eine differenzierte Selbsteinschätzung und Fremdeinschätzung von Schüler:innen
+            anhand von sechs Kompetenzbereichen. Ergebnisse werden grafisch und tabellarisch aufbereitet.
+            Die Anwendung speichert die Daten in einer MySQL-Datenbank und erlaubt den Export.
+          </p>
+          <p>
+            The browser-based PHP version allows for a differentiated self-assessment and external assessment of students based on six competence areas. Results are presented graphically and in tabular form. The application stores the data in a MySQL database and allows for export.
+          </p>
           <div class="text-center" style="margin-top: 2rem;">
             <a href="https://github.com/pkoopongithub/duesseldorfer-schuelerinventar-bootstrap-mysql-php" class="btn">Mehr erfahren</a>
           </div>
-    </div>
-  </div>
-  <div class="col col-md-4">
-    <div class="p-3 bg-light text-center">
-      <img src="img/DueskAndriod.png" alt="Düsk Android-Version">
-      <h2>Android-App</h2>
-      <p>
-        Die Android-App erlaubt das Ausfüllen des Schülerinventars auf mobilen Android Geräten.
-        Per Fingertipp werden Items bewertet, das System errechnet die Kompetenzprofile in Echtzeit.
-        Die App ist ideal für mobile Schulumgebungen und Offline-Erhebungen.
-      </p>
-      <p>The Android app allows for the completion of student inventories on mobile Android devices. Items are evaluated with a fingertip, and the system calculates the competence profiles in real-time. The app is ideal for mobile school environments and offline assessments.</p>
-      
+        </div>
+      </div>
+
+      <div class="col col-md-4">
+        <div class="p-3 bg-light">
+          <img src="img/DueskAndriod.png" alt="Düsk Android-Version" />
+          <h2>Android-App</h2>
+          <p>
+            Die Android-App erlaubt das Ausfüllen des Schülerinventars auf mobilen Android Geräten.
+            Per Fingertipp werden Items bewertet, das System errechnet die Kompetenzprofile in Echtzeit.
+            Die App ist ideal für mobile Schulumgebungen und Offline-Erhebungen.
+          </p>
+          <p>
+            The Android app allows for the completion of student inventories on mobile Android devices. Items are evaluated with a fingertip, and the system calculates the competence profiles in real-time. The app is ideal for mobile school environments and offline assessments.
+          </p>
           <div class="text-center" style="margin-top: 2rem;">
             <a href="https://github.com/pkoopongithub/duesseldorfer-schuelerinventar-android-studio" class="btn">Mehr erfahren</a>
           </div>
-    </div>
-  </div>
-  <div class="col col-md-4">
-    <div class="p-3 bg-light text-center">
-      <img src="img/DueskIosVersion.jpg" alt="Düsk iOS-Version">
-      <h2>iOS-Version</h2>
-      <p>
-        Die iOS-Version erlaubt das Ausfüllen des Schülerinventars auf mobilen IOs Geräten.
-        Per Fingertipp werden Items bewertet, das System errechnet die Kompetenzprofile in Echtzeit.
-        Die App ist ideal für mobile Schulumgebungen und Offline-Erhebungen.
-      </p>
-      <p>The iOS version allows the completion of the student inventory on mobile iOS devices. Items are evaluated with a tap of the finger, and the system calculates the competence profiles in real-time. The app is ideal for mobile school environments and offline assessments.</p>
-      
+        </div>
+      </div>
+
+      <div class="col col-md-4">
+        <div class="p-3 bg-light">
+          <img src="img/DueskIosVersion.jpg" alt="Düsk iOS-Version" />
+          <h2>iOS-Version</h2>
+          <p>
+            Die iOS-Version erlaubt das Ausfüllen des Schülerinventars auf mobilen iOS Geräten.
+            Per Fingertipp werden Items bewertet, das System errechnet die Kompetenzprofile in Echtzeit.
+            Die App ist ideal für mobile Schulumgebungen und Offline-Erhebungen.
+          </p>
+          <p>
+            The iOS version allows for completing the student inventory on mobile iOS devices. Items are evaluated with a fingertip, and the system calculates competence profiles in real time. The app is ideal for mobile school environments and offline assessments.
+          </p>
           <div class="text-center" style="margin-top: 2rem;">
-            <a href="https://github.com/pkoopongithub/duesseldorfer-schuelerinventar-xcode" class="btn">Mehr erfahren</a>
+            <a href="https://github.com/pkoopongithub/duesseldorfer-schuelerinventar-ios" class="btn">Mehr erfahren</a>
           </div>
+        </div>
+      </div>
     </div>
-  </div>  
-</div>
-
-
-    <!---<div class="text-center" style="margin-top: 2rem;">
-      <a href="https://github.com/pkoopongithub/duesseldorfer-schuelerinventar-bootstrap-mysql-php" class="btn">Mehr erfahren</a>
-    </div>-->
   </div>
 
-<footer>
-  Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen
-</footer>
-  
+  <footer>
+    Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen<br />
+    <a href="https://github.com/pkoopongithub/pkoopongithub.github.io/discussions/1" style="color: #ffc107; text-decoration: none;">Zur Diskussion auf GitHub</a>
+  </footer>
+
 </body>
 </html>
-
