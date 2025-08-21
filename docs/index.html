@@ -128,6 +128,81 @@
     .text-center {
       text-align: center;
     }
+
+    /* Formular-Stile */
+    .form-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 0.375rem 0.75rem;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      align-items: center;
+    }
+
+    .item-label {
+      font-weight: normal;
+      grid-column: 1;
+    }
+
+    .radio-group {
+      display: flex;
+      justify-content: space-around;
+      grid-column: 2 / span 5;
+    }
+
+    .radio-group label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .profile-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    .profile-table th,
+    .profile-table td {
+      border: 1px solid #dee2e6;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    .profile-table th {
+      background-color: #f8f9fa;
+    }
+
+    .profile-svg {
+      width: 100%;
+      height: 252px;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -146,13 +221,40 @@
 <div class="container">
   <h1 class="mb-4 text-center">Willkommen Welcome</h1>
 
+  <!-- Formular für Selbsteinschätzung und Fremdeinschätzung -->
+  <div class="form-container">
+    <h2>Profil erfassen</h2>
+    <div class="form-group">
+      <label for="profilName" class="form-label">Name:</label>
+      <input type="text" id="profilName" class="form-control" placeholder="Name des Profils">
+    </div>
+    
+    <div class="form-group">
+      <label for="normtabelle" class="form-label">Normtabelle:</label>
+      <select id="normtabelle" class="form-select">
+        <option value="hs">Hauptschule</option>
+        <option value="fs">Förderschule</option>
+      </select>
+    </div>
+    
+    <h3>Selbsteinschätzung und Fremdeinschätzung</h3>
+    <div id="itemsContainer"></div>
+    
+    <div class="text-center">
+      <button id="calculateBtn" class="btn">Profil berechnen</button>
+    </div>
+  </div>
+
+  <!-- Ergebnisse werden hier dynamisch eingefügt -->
+  <div id="resultsContainer"></div>
+
   <div class="row">
     <div class="col col-md-4">
       <div class="p-3 bg-light">
         <img src="img/DueskPHPprofilansicht.jpg" alt="Düsk PHP-Profilansicht" />
         <h2>Web App (PHP Version)</h2>
         <p>
-          Die browserbasierte PHP-Version ermöglicht eine differenzierte Selbsteinschätzung und Fremdeinschätzung von Schüler:innen anhand von sechs Kompetenzbereichen. Ergebnisse werden grafisch und tabellarisch aufbereitet. Die Anwendung speichert die Daten in einer MySQL-Datenbank und erlaubt den Export.
+          Die browserbasierte PHP-Version ermöglicht eine differenzierte Selbsteinschätzung und Fremdeinschätzung von Schüler:innen anhand von sechs Kompetenzbereichen. Ergebnisse werden grafisch und tabularisch aufbereitet. Die Anwendung speichert die Daten in einer MySQL-Datenbank und erlaubt den Export.
         </p>
         <p>
           The browser-based PHP version allows for a differentiated self-assessment and external assessment of students based on six competence areas. Results are presented graphically and in tabular form. The application stores the data in a MySQL database and allows for export.
@@ -196,14 +298,517 @@
     </div>
   </div>
 </div>
-  <footer>
-    Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen<br />
-    <a href="https://github.com/pkoopongithub/pkoopongithub.github.io/discussions/1" style="color: #ffc107; text-decoration: none;">Zur Diskussion auf GitHub</a>
+
+<footer>
+  Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen<br />
+  <a href="https://github.com/pkoopongithub/pkoopongithub.github.io/discussions/1" style="color: #ffc107; text-decoration: none;">Zur Diskussion auf GitHub</a>
+  
+  <a href="https://www.overleaf.com/read/frdrsbsgvzjs#46e359" style="color: #ffc107; text-decoration: none;">
+    Zur Ansicht auf OverLeaf
+  </a>
+</footer>
+
+<script>
+// Normtabellen als JavaScript-Arrays (Beispieldaten)
+const normSEhs = [
+  [10, 20, 30, 40, 50], // Arbeitsverhalten
+  [10, 20, 30, 40, 50], // Lernverhalten
+  [8, 16, 24, 32, 40],  // Sozialverhalten
+  [8, 16, 24, 32, 40],  // Fachkompetenz
+  [11, 22, 33, 44, 55], // Personale Kompetenz
+  [8, 16, 24, 32, 40]   // Methodenkompetenz
+];
+
+const normFEhs = [
+  [10, 20, 30, 40, 50],
+  [10, 20, 30, 40, 50],
+  [8, 16, 24, 32, 40],
+  [8, 16, 24, 32, 40],
+  [11, 22, 33, 44, 55],
+  [8, 16, 24, 32, 40]
+];
+
+const normSEfs = [
+  [8, 16, 24, 32, 40],
+  [8, 16, 24, 32, 40],
+  [6, 12, 18, 24, 30],
+  [6, 12, 18, 24, 30],
+  [9, 18, 27, 36, 45],
+  [6, 12, 18, 24, 30]
+];
+
+const normFEfs = [
+  [8, 16, 24, 32, 40],
+  [8, 16, 24, 32, 40],
+  [6, 12, 18, 24, 30],
+  [6, 12, 18, 24, 30],
+  [9, 18, 27, 36, 45],
+  [6, 12, 18, 24, 30]
+];
+
+// Item-Bezeichnungen
+const itemLabels = [
+  "Zuverlässigkeit: Ich beachte beim Erfüllen eines Auftrags genau die Hinweise, Vorgaben und Absprachen.",
+  "Arbeitstempo: Ich schaffe schulische Aufgaben in der vorgegebenen Zeit.",
+  "Arbeitsplanung: Ich mache einen Plan zur Vorgehensweise.",
+  "Organisationsfähigkeit: Ich mache Vorschläge zur Aufgabenverteilung.",
+  "Geschicklichkeit: Ich bin geschickt und sicher bei der Benutzung von Werkzeugen und Arbeitsgeräten.",
+  "Ordnung: Mein Arbeitsplatz ist immer ordentlich und übersichtlich.",
+  "Sorgfalt: Ich gehe sachgerecht und verantwortungsbewusst mit Materialien um.",
+  "Kreativität: Ich habe immer wieder neue Ideen, wie ich Lösungen finden kann.",
+  "Problemlösungsfähigkeit: Knifflige Aufgaben machen mir Spaß.",
+  "Abstraktionsvermögen: Ich kann Wichtiges von Unwichtigem unterscheiden.",
+  "Selbstständigkeit: Ich kann Aufgaben ohne Anleitung ausführen.",
+  "Belastbarkeit: Ich arbeite auch bei Schwierigkeiten an einer Aufgabe weiter.",
+  "Konzentrationsfähigkeit: Ich kann eine Tätigkeit über längere Zeit ausüben, ohne mich ablenken zu lassen.",
+  "Verantwortungsbewusstsein: Ich gestalte Entscheidungen mit und übernehme auch die Verantwortung für sie.",
+  "Eigeninitiative: Ich setze mir eigene Ziele und verwirkliche sie auch ohne Anstoß von außen.",
+  "Leistungsbereitschaft: Ich arbeite auch über das geforderte Maß an einer Aufgabe weiter.",
+  "Auffassungsgabe: Ich kann Zusammenhänge leicht und schnell begreifen.",
+  "Merkfähigkeit: Einmal Gelerntes weiß ich nach längerer Zeit noch.",
+  "Motivationsfähigkeit: Ich gehe mit Begeisterung an neue Aufgaben.",
+  "Reflektionsfähigkeit: Ich erkenne, wie meine Arbeitsleistung war.",
+  "Teamfähigkeit: Ich kann zielgerichtet und förderlich mit anderen zusammenarbeiten.",
+  "Hilfsbereitschaft: Wenn jemand Unterstützung braucht, bin ich gern bereit zu helfen.",
+  "Kontaktfähigkeit: Ich kann auf andere zugehen und bin an deren Vorschlägen interessiert.",
+  "Respektvoller Umgang: Ich beachte die Formen der Höflichkeit im Umgang mit anderen Menschen.",
+  "Kommunikationsfähigkeit: Ich gehe auf Fragen ein und höre anderen aufmerksam zu.",
+  "Einfühlungsvermögen: Ich kann mich in andere hineinversetzen.",
+  "Konfliktfähigkeit: Ich versuche bei einem Streit, eine gemeinsame Lösung zu finden.",
+  "Kritikfähigkeit: Ich kann Kritik angemessen vorbringen, annehmen und umsetzen.",
+  "Schreiben: Ich schreibe gern Texte.",
+  "Lesen: Ich kann wichtige Informationen aus einem Text entnehmen.",
+  "Mathematik: Ich kann gut mit Zahlen und Formeln umgehen.",
+  "Naturwissenschaft: Ich interessiere mich für die Natur und ihre Gesetze.",
+  "Fremdsprachen: Ich kann mich in einer Fremdsprache ausdrücken.",
+  "Präsentationsfähigkeit: Wenn ich präsentiere, hören mir andere gern zu.",
+  "PC Kenntnisse: Ich kann den PC für die schulische Arbeit nutzen.",
+  "Fächerübergreifendes Denken: Ich kann Wissen, das ich erworben habe, auch in anderen Zusammenhängen anwenden."
+];
+
+// Items-Container füllen mit Radio-Buttons
+function initItems() {
+  const container = document.getElementById('itemsContainer');
+  container.innerHTML = '';
+  
+  // Überschriften
+  const headerRow = document.createElement('div');
+  headerRow.className = 'item-grid';
+  headerRow.innerHTML = `
+    <div class="item-label"><strong>Item</strong></div>
+    <div class="radio-group">
+      <label><span>1</span><br>trifft nicht zu</label>
+      <label><span>2</span><br>trifft teilweise zu</label>
+      <label><span>3</span><br>trifft zu</label>
+      <label><span>4</span><br>trifft voll zu</label>
+    </div>
+  `;
+  container.appendChild(headerRow);
+  
+  // Items mit Radio-Buttons für SE
+  for (let i = 0; i < 36; i++) {
+    const itemRow = document.createElement('div');
+    itemRow.className = 'item-grid';
     
-    <a href="https://www.overleaf.com/read/frdrsbsgvzjs#46e359" style="color: #ffc107; text-decoration: none;">
-      Zur Ansicht auf OverLeaf
-    </a>
-  </footer>
+    itemRow.innerHTML = `
+      <div class="item-label">${i+1}. ${itemLabels[i]}</div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="1" required>
+          <span>1</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="2">
+          <span>2</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="3">
+          <span>3</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="4">
+          <span>4</span>
+        </label>
+      </div>
+    `;
+    
+    container.appendChild(itemRow);
+  }
+  
+  // Trennlinie zwischen SE und FE
+  const separator = document.createElement('hr');
+  separator.style.margin = '2rem 0';
+  container.appendChild(separator);
+  
+  // Überschriften für FE
+  const feHeaderRow = document.createElement('div');
+  feHeaderRow.className = 'item-grid';
+  feHeaderRow.innerHTML = `
+    <div class="item-label"><strong>Item (Fremdeinschätzung)</strong></div>
+    <div class="radio-group">
+      <label><span>1</span><br>trifft nicht zu</label>
+      <label><span>2</span><br>trifft teilweise zu</label>
+      <label><span>3</span><br>trifft zu</label>
+      <label><span>4</span><br>trifft voll zu</label>
+    </div>
+  `;
+  container.appendChild(feHeaderRow);
+  
+  // Items mit Radio-Buttons für FE
+  for (let i = 0; i < 36; i++) {
+    const itemRow = document.createElement('div');
+    itemRow.className = 'item-grid';
+    
+    itemRow.innerHTML = `
+      <div class="item-label">${i+1}. ${itemLabels[i]}</div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="1" required>
+          <span>1</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="2">
+          <span>2</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="3">
+          <span>3</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="4">
+          <span>4</span>
+        </label>
+      </div>
+    `;
+    
+    container.appendChild(itemRow);
+  }
+}
+
+// Berechnung der Kompetenzwerte
+function calculateCompetence(itemIndices, answers, normValues) {
+  let sum = 0;
+  for (const i of itemIndices) {
+    sum += answers[i];
+  }
+  
+  for (let i = 0; i < normValues.length; i++) {
+    if (sum < normValues[i]) {
+      return i + 1;
+    }
+  }
+  return normValues.length;
+}
+
+// Berechnung der Profile
+function calculateProfiles() {
+  const normType = document.getElementById('normtabelle').value;
+  const SEint = Array(37).fill(0); // Index 1-36
+  const FEint = Array(37).fill(0); // Index 1-36
+  
+  // Werte aus Formular auslesen
+  for (let i = 1; i <= 36; i++) {
+    const seRadio = document.querySelector(`input[name="se-item-${i}"]:checked`);
+    const feRadio = document.querySelector(`input[name="fe-item-${i}"]:checked`);
+    
+    if (seRadio) SEint[i] = parseInt(seRadio.value);
+    if (feRadio) FEint[i] = parseInt(feRadio.value);
+  }
+  
+  // Normtabellen auswählen
+  const normSE = normType === 'hs' ? normSEhs : normSEfs;
+  const normFE = normType === 'hs' ? normFEhs : normFEfs;
+  
+  // Punkte aufsummieren
+  const SEPint = [
+    0, // Index 0 nicht verwendet
+    SEint[1] + SEint[2] + SEint[3] + SEint[4] + SEint[5] + SEint[6] + SEint[7] + SEint[8] + SEint[9] + SEint[10], // Arbeitsverhalten
+    SEint[11] + SEint[12] + SEint[13] + SEint[14] + SEint[15] + SEint[16] + SEint[17] + SEint[18] + SEint[19] + SEint[20], // Lernverhalten
+    SEint[21] + SEint[22] + SEint[23] + SEint[24] + SEint[25] + SEint[26] + SEint[27] + SEint[28] + SEint[9] + SEint[10], // Sozialverhalten
+    SEint[29] + SEint[30] + SEint[31] + SEint[32] + SEint[33] + SEint[34] + SEint[35] + SEint[36], // Fachkompetenz
+    SEint[1] + SEint[2] + SEint[6] + SEint[7] + SEint[8] + SEint[9] + SEint[10] + SEint[12] + SEint[13] + SEint[14] + SEint[15], // Personale Kompetenz
+    SEint[3] + SEint[4] + SEint[5] + SEint[9] + SEint[10] + SEint[11] + SEint[17] + SEint[18] // Methodenkompetenz
+  ];
+  
+  const FEPint = [
+    0, // Index 0 nicht verwendet
+    FEint[1] + FEint[2] + FEint[3] + FEint[4] + FEint[5] + FEint[6] + FEint[7] + FEint[8] + FEint[9] + FEint[10], // Arbeitsverhalten
+    FEint[11] + FEint[12] + FEint[13] + FEint[14] + FEint[15] + FEint[16] + FEint[17] + FEint[18] + FEint[19] + FEint[20], // Lernverhalten
+    FEint[21] + FEint[22] + FEint[23] + FEint[24] + FEint[25] + FEint[26] + FEint[27] + FEint[28] + FEint[9] + FEint[10], // Sozialverhalten
+    FEint[29] + FEint[30] + FEint[31] + FEint[32] + FEint[33] + FEint[34] + FEint[35] + FEint[36], // Fachkompetenz
+    FEint[1] + FEint[2] + FEint[6] + FEint[7] + FEint[8] + FEint[9] + FEint[10] + FEint[12] + FEint[13] + FEint[14] + FEint[15], // Personale Kompetenz
+    FEint[3] + FEint[4] + FEint[5] + FEint[9] + FEint[10] + FEint[11] + FEint[17] + FEint[18] // Methodenkompetenz
+  ];
+  
+  // Profile berechnen
+  const SEprofilSVG = [];
+  const FEprofilSVG = [];
+  
+  const kompetenzIndizes = [
+    [0,1,2,3,4,5,6,7,8,9], // Arbeitsverhalten
+    [10,11,12,13,14,15,16,17,18,19], // Lernverhalten
+    [20,21,22,23,24,25,26,27,8,9], // Sozialverhalten
+    [28,29,30,31,32,33,34,35], // Fachkompetenz
+    [0,1,5,6,7,8,9,10,11,13,14], // Personale Kompetenz
+    [2,3,4,8,9,10,16,17] // Methodenkompetenz
+  ];
+  
+  for (let i = 0; i < 6; i++) {
+    SEprofilSVG[i] = calculateCompetence(kompetenzIndizes[i], SEint, normSE[i]);
+    FEprofilSVG[i] = calculateCompetence(kompetenzIndizes[i], FEint, normFE[i]);
+  }
+  
+  // Korrelation berechnen
+  const SEPmittel = (SEPint[1] + SEPint[2] + SEPint[3] + SEPint[4] + SEPint[5] + SEPint[6]) / 6;
+  const FEPmittel = (FEPint[1] + FEPint[2] + FEPint[3] + FEPint[4] + FEPint[5] + FEPint[6]) / 6;
+  
+  let zaehler = 0;
+  let nenner1 = 0;
+  let nenner2 = 0;
+  
+  for (let i = 1; i <= 6; i++) {
+    zaehler += (SEPmittel - SEPint[i]) * (FEPmittel - FEPint[i]);
+    nenner1 += Math.pow(SEPmittel - SEPint[i], 2);
+    nenner2 += Math.pow(FEPmittel - FEPint[i], 2);
+  }
+  
+  const korrelation = zaehler / Math.sqrt(nenner1 * nenner2);
+  
+  // Übereinstimmung berechnen
+  let uebereinstimmung = 0;
+  for (let i = 1; i <= 36; i++) {
+    if (SEint[i] === FEint[i]) {
+      uebereinstimmung++;
+    }
+  }
+  uebereinstimmung = (uebereinstimmung / 36) * 100;
+  
+  return {
+    SEprofilSVG,
+    FEprofilSVG,
+    korrelation,
+    uebereinstimmung,
+    SEint,
+    FEint
+  };
+}
+
+// SVG für Profil zeichnen
+function drawProfileSVG(profilSVG, containerId, title) {
+  const kompetenzLabels = [
+    "Arbeitsverhalten",
+    "Lernverhalten",
+    "Sozialverhalten",
+    "Fachkompetenz",
+    "Personale Kompetenz",
+    "Methodenkompetenz"
+  ];
+  
+  const svgWidth = 500;
+  const svgHeight = 252;
+  const labelWidth = 120; // Breite für die Beschriftung
+  const graphWidth = svgWidth - labelWidth;
+  
+  const svg = `
+    <svg width="${svgWidth}" height="${svgHeight}" class="profile-svg">
+      <!-- Raster und Beschriftung -->
+      <line x1="${labelWidth}" y1="0" x2="${svgWidth}" y2="0" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="36" x2="${svgWidth}" y2="36" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="72" x2="${svgWidth}" y2="72" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="108" x2="${svgWidth}" y2="108" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="144" x2="${svgWidth}" y2="144" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="180" x2="${svgWidth}" y2="180" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="216" x2="${svgWidth}" y2="216" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth}" y1="252" x2="${svgWidth}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      
+      <!-- Vertikale Linien für die Punktwerte -->
+      <line x1="${labelWidth}" y1="0" x2="${labelWidth}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth + graphWidth * 0.2}" y1="0" x2="${labelWidth + graphWidth * 0.2}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth + graphWidth * 0.4}" y1="0" x2="${labelWidth + graphWidth * 0.4}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth + graphWidth * 0.6}" y1="0" x2="${labelWidth + graphWidth * 0.6}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${labelWidth + graphWidth * 0.8}" y1="0" x2="${labelWidth + graphWidth * 0.8}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="${svgWidth}" y1="0" x2="${svgWidth}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
+      
+      <!-- Kompetenz-Labels -->
+      <text font-size="10px" x="5" y="18" fill="black">${kompetenzLabels[0]}</text>
+      <text font-size="10px" x="5" y="54" fill="black">${kompetenzLabels[1]}</text>
+      <text font-size="10px" x="5" y="90" fill="black">${kompetenzLabels[2]}</text>
+      <text font-size="10px" x="5" y="126" fill="black">${kompetenzLabels[3]}</text>
+      <text font-size="10px" x="5" y="162" fill="black">${kompetenzLabels[4]}</text>
+      <text font-size="10px" x="5" y="198" fill="black">${kompetenzLabels[5]}</text>
+      
+      <!-- Punkt-Labels -->
+      <text font-size="10px" x="${labelWidth + graphWidth * 0.1}" y="18" fill="black" text-anchor="middle">1</text>
+      <text font-size="10px" x="${labelWidth + graphWidth * 0.3}" y="18" fill="black" text-anchor="middle">2</text>
+      <text font-size="10px" x="${labelWidth + graphWidth * 0.5}" y="18" fill="black" text-anchor="middle">3</text>
+      <text font-size="10px" x="${labelWidth + graphWidth * 0.7}" y="18" fill="black" text-anchor="middle">4</text>
+      <text font-size="10px" x="${labelWidth + graphWidth * 0.9}" y="18" fill="black" text-anchor="middle">5</text>
+      
+      <!-- Profil-Linie -->
+      <polyline
+        fill="none"
+        stroke="#0074d9"
+        stroke-width="3"
+        points="
+          ${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1},18
+          ${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1},54
+          ${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1},90
+          ${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1},126
+          ${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1},162
+          ${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1},198
+        "
+      />
+      
+      <!-- Punkte -->
+      <circle cx="${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="18" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="54" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="90" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="126" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="162" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="198" r="10" stroke="blue" stroke-width="5" fill="white" />
+    </svg>
+  `;
+  
+  const container = document.getElementById(containerId);
+  container.innerHTML = svg;
+}
+
+// Ergebnisse anzeigen
+function showResults(results) {
+  const container = document.getElementById('resultsContainer');
+  const kompetenzLabels = [
+    "Arbeitsverhalten",
+    "Lernverhalten",
+    "Sozialverhalten",
+    "Fachkompetenz",
+    "Personale Kompetenz",
+    "Methodenkompetenz"
+  ];
+  
+  let html = `
+    <div class="form-container">
+      <h2>Ergebnisse für: ${document.getElementById('profilName').value || 'Unbenannt'}</h2>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Selbsteinschätzung</h3>
+          <table class="profile-table">
+            <thead>
+              <tr>
+                <th>Kompetenz</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+              </tr>
+            </thead>
+            <tbody>
+  `;
+  
+  for (let i = 0; i < 6; i++) {
+    html += `<tr><td>${kompetenzLabels[i]}</td>`;
+    for (let j = 1; j <= 5; j++) {
+      html += `<td>${results.SEprofilSVG[i] === j ? 'X' : ''}</td>`;
+    }
+    html += `</tr>`;
+  }
+  
+  html += `
+            </tbody>
+          </table>
+          <div id="seProfileSVG"></div>
+        </div>
+        
+        <div class="col-md-6">
+          <h3>Fremdeinschätzung</h3>
+          <table class="profile-table">
+            <thead>
+              <tr>
+                <th>Kompetenz</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+              </tr>
+            </thead>
+            <tbody>
+  `;
+  
+  for (let i = 0; i < 6; i++) {
+    html += `<tr><td>${kompetenzLabels[i]}</td>`;
+    for (let j = 1; j <= 5; j++) {
+      html += `<td>${results.FEprofilSVG[i] === j ? 'X' : ''}</td>`;
+    }
+    html += `</tr>`;
+  }
+  
+  html += `
+            </tbody>
+          </table>
+          <div id="feProfileSVG"></div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Korrelation / Übereinstimmung</h3>
+          <p>Korrelation: ${results.korrelation.toFixed(2)}</p>
+          <p>Übereinstimmung: ${results.uebereinstimmung.toFixed(2)}%</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Itemkodierung</h3>
+          <table class="profile-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>SE</th>
+                <th>FE</th>
+              </tr>
+            </thead>
+            <tbody>
+  `;
+  
+  for (let i = 1; i <= 36; i++) {
+    html += `
+      <tr>
+        <td>${i}. ${itemLabels[i-1].split(':')[0]}</td>
+        <td>${results.SEint[i]}</td>
+        <td>${results.FEint[i]}</td>
+      </tr>
+    `;
+  }
+  
+  html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  container.innerHTML = html;
+  
+  // SVG-Grafiken zeichnen
+  drawProfileSVG(results.SEprofilSVG, 'seProfileSVG', 'Selbsteinschätzung');
+  drawProfileSVG(results.FEprofilSVG, 'feProfileSVG', 'Fremdeinschätzung');
+}
+
+// Event-Listener
+document.getElementById('calculateBtn').addEventListener('click', function() {
+  const results = calculateProfiles();
+  showResults(results);
+});
+
+// Initialisierung
+document.addEventListener('DOMContentLoaded', function() {
+  initItems();
+});
+</script>
 
 </body>
 </html>
