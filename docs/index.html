@@ -221,32 +221,6 @@
 <div class="container">
   <h1 class="mb-4 text-center">Willkommen Welcome</h1>
 
-  <!-- Formular für Selbsteinschätzung und Fremdeinschätzung -->
-  <div class="form-container">
-    <h2>Profil erfassen</h2>
-    <div class="form-group">
-      <label for="profilName" class="form-label">Name:</label>
-      <input type="text" id="profilName" class="form-control" placeholder="Name des Profils">
-    </div>
-    
-    <div class="form-group">
-      <label for="normtabelle" class="form-label">Normtabelle:</label>
-      <select id="normtabelle" class="form-select">
-        <option value="hs">Hauptschule</option>
-        <option value="fs">Förderschule</option>
-      </select>
-    </div>
-    
-    <h3>Selbsteinschätzung und Fremdeinschätzung</h3>
-    <div id="itemsContainer"></div>
-    
-    <div class="text-center">
-      <button id="calculateBtn" class="btn">Profil berechnen</button>
-    </div>
-  </div>
-
-  <!-- Ergebnisse werden hier dynamisch eingefügt -->
-  <div id="resultsContainer"></div>
 
   <div class="row">
     <div class="col col-md-4">
@@ -298,6 +272,34 @@
     </div>
   </div>
 </div>
+
+  <!-- Formular für Selbsteinschätzung und Fremdeinschätzung -->
+  <div class="form-container">
+    <h2>Profil erfassen</h2>
+    <div class="form-group">
+      <label for="profilName" class="form-label">Name:</label>
+      <input type="text" id="profilName" class="form-control" placeholder="Name des Profils">
+    </div>
+    
+    <div class="form-group">
+      <label for="normtabelle" class="form-label">Normtabelle:</label>
+      <select id="normtabelle" class="form-select">
+        <option value="hs">Hauptschule</option>
+        <option value="fs">Förderschule</option>
+      </select>
+    </div>
+    
+    <h3>Selbsteinschätzung und Fremdeinschätzung</h3>
+    <div id="itemsContainer"></div>
+    
+    <div class="text-center">
+      <button id="calculateBtn" class="btn">Profil berechnen</button>
+    </div>
+  </div>
+
+  <!-- Ergebnisse werden hier dynamisch eingefügt -->
+  <div id="resultsContainer"></div>
+
 
 <footer>
   Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen<br />
