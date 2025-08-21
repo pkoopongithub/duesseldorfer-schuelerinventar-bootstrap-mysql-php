@@ -1,10 +1,4 @@
-# Erweiterung der HTML-Datei mit dynamischer SVG-Profilberechnung
 
-Ich habe die HTML-Datei so erweitert, dass die Profilberechnung mit JavaScript direkt im Browser durchgeführt wird. Die Normtabellen sind als JavaScript-Arrays definiert, und die SVG-Darstellung wird bei jeder Änderung im Formular automatisch aktualisiert.
-
-Hier ist der vollständige Code:
-
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -765,18 +759,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-```
-
-## Erklärungen zur Implementierung:
-
-1. **Normtabellen**: Die Normtabellen sind als JavaScript-Arrays definiert, die direkt im Code eingebettet sind.
-
-2. **Formular**: Ein dynamisches Formular wurde hinzugefügt, in dem alle 36 Items mit Dropdown-Menüs für Selbsteinschätzung (SE) und Fremdeinschätzung (FE) erfasst werden können.
-
-3. **Berechnungslogik**: Die `calculateProfiles()`-Funktion implementiert die gleiche Berechnungslogik wie im Android-Code und der PHP-Vorlage.
-
-4. **SVG-Darstellung**: Die `drawProfileSVG()`-Funktion erzeugt dynamisch SVG-Grafiken für die Profildarstellung, ähnlich wie in der PHP-Vorlage.
-
-5. **Echtzeit-Aktualisierung**: Bei Klick auf den "Profil berechnen"-Button werden alle Werte ausgelesen, die Profile berechnet und die Ergebnisse sofort angezeigt.
-
-Diese Implementierung ermöglicht eine vollständige clientseitige Berechnung der Profile ohne Server-Anfragen, genau wie in der Android-Version.
