@@ -203,62 +203,6 @@
       height: 252px;
       margin-bottom: 1rem;
     }
-
-    /* Neue Stile für Einzel-Item-Ansicht */
-    .item-navigation {
-      display: flex;
-      justify-content: space-between;
-      margin: 1rem 0;
-    }
-
-    .item-view {
-      background-color: #f8f9fa;
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .item-counter {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .item-text {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .rating-options {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1.5rem;
-    }
-
-    .rating-option {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .rating-option input {
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-      text-align: center;
-      margin: 1.5rem 0;
-      padding: 0.5rem;
-      background-color: #e9ecef;
-      border-radius: 0.25rem;
-    }
-
-    .completion-status {
-      text-align: center;
-      margin: 1rem 0;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
@@ -277,6 +221,7 @@
 
 <div class="container">
   <h1 class="mb-4 text-center">Willkommen Welcome</h1>
+
 
   <div class="row">
     <div class="col col-md-4">
@@ -345,25 +290,8 @@
       </select>
     </div>
     
-    <div id="sectionToggle" class="text-center" style="margin-bottom: 1.5rem;">
-      <button id="toggleSectionBtn" class="btn">Zur Fremdeinschätzung wechseln</button>
-    </div>
-    
-    <h3 id="currentSectionTitle">Selbsteinschätzung</h3>
-    
-    <div class="completion-status" id="completionStatus"></div>
-    
-    <div class="item-view" id="itemView">
-      <div class="item-counter" id="itemCounter">Item 1 von 36</div>
-      <div class="item-text" id="itemText"></div>
-      
-      <div class="rating-options" id="ratingOptions"></div>
-      
-      <div class="item-navigation">
-        <button id="prevItemBtn" class="btn" disabled>Vorheriges Item</button>
-        <button id="nextItemBtn" class="btn">Nächstes Item</button>
-      </div>
-    </div>
+    <h3>Selbsteinschätzung und Fremdeinschätzung</h3>
+    <div id="itemsContainer"></div>
     
     <div class="text-center">
       <button id="calculateBtn" class="btn">Profil berechnen</button>
@@ -372,6 +300,7 @@
 
   <!-- Ergebnisse werden hier dynamisch eingefügt -->
   <div id="resultsContainer"></div>
+
 
 <footer>
   Paul Koop &middot; Thomashofstraße 19 &middot; 52070 Aachen<br />
@@ -420,6 +349,7 @@ const normFEfs = [
   [9.79, 13.97, 18.15, 22.33, 26.51]
 ];
 
+
 // Item-Bezeichnungen
 const itemLabels = [
   "Zuverlässigkeit: Ich beachte beim Erfüllen eines Auftrags genau die Hinweise, Vorgaben und Absprachen.",
@@ -460,133 +390,103 @@ const itemLabels = [
   "Fächerübergreifendes Denken: Ich kann Wissen, das ich erworben habe, auch in anderen Zusammenhängen anwenden."
 ];
 
-// Globale Variablen für den aktuellen Zustand
-let currentSection = 'se'; // 'se' für Selbsteinschätzung, 'fe' für Fremdeinschätzung
-let currentItemIndex = 0; // 0-basiert (0-35)
-const SEint = Array(37).fill(0); // Index 1-36
-const FEint = Array(37).fill(0); // Index 1-36
-
-// Initialisierung der Einzel-Item-Ansicht
-function initSingleItemView() {
-  updateItemView();
-  updateCompletionStatus();
+// Items-Container füllen mit Radio-Buttons
+function initItems() {
+  const container = document.getElementById('itemsContainer');
+  container.innerHTML = '';
   
-  // Event-Listener für Navigation
-  document.getElementById('prevItemBtn').addEventListener('click', showPreviousItem);
-  document.getElementById('nextItemBtn').addEventListener('click', showNextItem);
+  // Überschriften
+  const headerRow = document.createElement('div');
+  headerRow.className = 'item-grid';
+  headerRow.innerHTML = `
+    <div class="item-label"><strong>Item (Selbsteinschätzung)</strong></div>
+    <div class="radio-group">
+      <label><span>1</span><br>trifft nicht zu</label>
+      <label><span>2</span><br>trifft teilweise zu</label>
+      <label><span>3</span><br>trifft zu</label>
+      <label><span>4</span><br>trifft voll zu</label>
+    </div>
+  `;
+  container.appendChild(headerRow);
   
-  // Event-Listener für Wechsel zwischen SE und FE
-  document.getElementById('toggleSectionBtn').addEventListener('click', toggleSection);
-}
-
-// Item-Ansicht aktualisieren
-function updateItemView() {
-  const itemNumber = currentItemIndex + 1;
-  document.getElementById('itemCounter').textContent = `Item ${itemNumber} von 36`;
-  document.getElementById('itemText').textContent = `${itemNumber}. ${itemLabels[currentItemIndex]}`;
-  
-  // Radio-Buttons für Bewertung erstellen
-  const ratingOptions = document.getElementById('ratingOptions');
-  ratingOptions.innerHTML = '';
-  
-  const ratings = [
-    { value: 1, label: 'trifft nicht zu' },
-    { value: 2, label: 'trifft teilweise zu' },
-    { value: 3, label: 'trifft zu' },
-    { value: 4, label: 'trifft voll zu' }
-  ];
-  
-  ratings.forEach(rating => {
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'rating-option';
+  // Items mit Radio-Buttons für SE
+  for (let i = 0; i < 36; i++) {
+    const itemRow = document.createElement('div');
+    itemRow.className = 'item-grid';
     
-    const input = document.createElement('input');
-    input.type = 'radio';
-    input.name = `item-rating-${currentSection}`;
-    input.value = rating.value;
-    input.id = `rating-${rating.value}`;
+    itemRow.innerHTML = `
+      <div class="item-label">${i+1}. ${itemLabels[i]}</div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="1" required>
+          <span>1</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="2" >
+          <span>2</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="3" checked>
+          <span>3</span>
+        </label>
+        <label>
+          <input type="radio" name="se-item-${i+1}" value="4">
+          <span>4</span>
+        </label>
+      </div>
+    `;
     
-    // Vorauswahl prüfen
-    const currentValue = currentSection === 'se' ? SEint[itemNumber] : FEint[itemNumber];
-    if (currentValue === rating.value) {
-      input.checked = true;
-    }
-    
-    input.addEventListener('change', () => {
-      if (currentSection === 'se') {
-        SEint[itemNumber] = parseInt(input.value);
-      } else {
-        FEint[itemNumber] = parseInt(input.value);
-      }
-      updateCompletionStatus();
-    });
-    
-    const label = document.createElement('label');
-    label.htmlFor = `rating-${rating.value}`;
-    label.innerHTML = `<span>${rating.value}</span><br>${rating.label}`;
-    
-    optionDiv.appendChild(input);
-    optionDiv.appendChild(label);
-    ratingOptions.appendChild(optionDiv);
-  });
-  
-  // Navigation-Buttons aktualisieren
-  document.getElementById('prevItemBtn').disabled = currentItemIndex === 0;
-  document.getElementById('nextItemBtn').disabled = currentItemIndex === 35;
-}
-
-// Fertigstellungsstatus aktualisieren
-function updateCompletionStatus() {
-  const totalItems = 36;
-  let completedItems = 0;
-  
-  if (currentSection === 'se') {
-    for (let i = 1; i <= totalItems; i++) {
-      if (SEint[i] > 0) completedItems++;
-    }
-  } else {
-    for (let i = 1; i <= totalItems; i++) {
-      if (FEint[i] > 0) completedItems++;
-    }
+    container.appendChild(itemRow);
   }
   
-  const percentage = Math.round((completedItems / totalItems) * 100);
-  document.getElementById('completionStatus').textContent = 
-    `${completedItems} von ${totalItems} Items beantwortet (${percentage}%)`;
-}
-
-// Nächstes Item anzeigen
-function showNextItem() {
-  if (currentItemIndex < 35) {
-    currentItemIndex++;
-    updateItemView();
-  }
-}
-
-// Vorheriges Item anzeigen
-function showPreviousItem() {
-  if (currentItemIndex > 0) {
-    currentItemIndex--;
-    updateItemView();
-  }
-}
-
-// Zwischen Selbsteinschätzung und Fremdeinschätzung wechseln
-function toggleSection() {
-  currentSection = currentSection === 'se' ? 'fe' : 'se';
-  currentItemIndex = 0; // Zurück zum ersten Item
+  // Trennlinie zwischen SE und FE
+  const separator = document.createElement('hr');
+  separator.style.margin = '2rem 0';
+  container.appendChild(separator);
   
-  // Titel und Button-Text aktualisieren
-  if (currentSection === 'se') {
-    document.getElementById('currentSectionTitle').textContent = 'Selbsteinschätzung';
-    document.getElementById('toggleSectionBtn').textContent = 'Zur Fremdeinschätzung wechseln';
-  } else {
-    document.getElementById('currentSectionTitle').textContent = 'Fremdeinschätzung';
-    document.getElementById('toggleSectionBtn').textContent = 'Zur Selbsteinschätzung wechseln';
-  }
+  // Überschriften für FE
+  const feHeaderRow = document.createElement('div');
+  feHeaderRow.className = 'item-grid';
+  feHeaderRow.innerHTML = `
+    <div class="item-label"><strong>Item (Fremdeinschätzung)</strong></div>
+    <div class="radio-group">
+      <label><span>1</span><br>trifft nicht zu</label>
+      <label><span>2</span><br>trifft teilweise zu</label>
+      <label><span>3</span><br>trifft zu</label>
+      <label><span>4</span><br>trifft voll zu</label>
+    </div>
+  `;
+  container.appendChild(feHeaderRow);
   
-  updateItemView();
-  updateCompletionStatus();
+  // Items mit Radio-Buttons für FE
+  for (let i = 0; i < 36; i++) {
+    const itemRow = document.createElement('div');
+    itemRow.className = 'item-grid';
+    
+    itemRow.innerHTML = `
+      <div class="item-label">${i+1}. ${itemLabels[i]}</div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="1" required>
+          <span>1</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="2">
+          <span>2</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="3" checked>
+          <span>3</span>
+        </label>
+        <label>
+          <input type="radio" name="fe-item-${i+1}" value="4">
+          <span>4</span>
+        </label>
+      </div>
+    `;
+    
+    container.appendChild(itemRow);
+  }
 }
 
 // Berechnung der Kompetenzwerte
@@ -607,6 +507,17 @@ function calculateCompetence(itemIndices, answers, normValues) {
 // Berechnung der Profile
 function calculateProfiles() {
   const normType = document.getElementById('normtabelle').value;
+  const SEint = Array(37).fill(0); // Index 1-36
+  const FEint = Array(37).fill(0); // Index 1-36
+  
+  // Werte aus Formular auslesen
+  for (let i = 1; i <= 36; i++) {
+    const seRadio = document.querySelector(`input[name="se-item-${i}"]:checked`);
+    const feRadio = document.querySelector(`input[name="fe-item-${i}"]:checked`);
+    
+    if (seRadio) SEint[i] = parseInt(seRadio.value);
+    if (feRadio) FEint[i] = parseInt(feRadio.value);
+  }
   
   // Normtabellen auswählen
   const normSE = normType === 'hs' ? normSEhs : normSEfs;
@@ -638,12 +549,12 @@ function calculateProfiles() {
   const FEprofilSVG = [];
   
   const kompetenzIndizes = [
-    [1,2,3,4,5,6,7,8,9,10], // Arbeitsverhalten
-    [11,12,13,14,15,16,17,18,19,20], // Lernverhalten
-    [21,22,23,24,25,26,27,28,9,10], // Sozialverhalten
-    [29,30,31,32,33,34,35,36], // Fachkompetenz
-    [1,2,6,7,8,9,10,12,13,14,15], // Personale Kompetenz
-    [3,4,5,9,10,11,17,18] // Methodenkompetenz
+    [0,1,2,3,4,5,6,7,8,9], // Arbeitsverhalten
+    [10,11,12,13,14,15,16,17,18,19], // Lernverhalten
+    [20,21,22,23,24,25,26,27,8,9], // Sozialverhalten
+    [28,29,30,31,32,33,34,35], // Fachkompetenz
+    [0,1,5,6,7,8,9,10,11,13,14], // Personale Kompetenz
+    [2,3,4,8,9,10,16,17] // Methodenkompetenz
   ];
   
   for (let i = 0; i < 6; i++) {
@@ -686,7 +597,7 @@ function calculateProfiles() {
   };
 }
 
-// SVG für Profil zeichnen - ANPASSUNG HIER
+// SVG für Profil zeichnen
 function drawProfileSVG(profilSVG, containerId, title) {
   const kompetenzLabels = [
     "Arbeitsverhalten",
@@ -702,10 +613,6 @@ function drawProfileSVG(profilSVG, containerId, title) {
   const labelWidth = 120; // Breite für die Beschriftung
   const graphWidth = svgWidth - labelWidth;
   
-  // Y-Positionen für die Kompetenzlinien (eine Zeile tiefer)
-  // 54,90,126,162,198,234 const yPositions = [36, 72, 108, 144, 180, 216];
-  const yPositions = [54, 90, 126, 162, 198, 234];
-
   const svg = `
     <svg width="${svgWidth}" height="${svgHeight}" class="profile-svg">
       <!-- Raster und Beschriftung -->
@@ -726,13 +633,13 @@ function drawProfileSVG(profilSVG, containerId, title) {
       <line x1="${labelWidth + graphWidth * 0.8}" y1="0" x2="${labelWidth + graphWidth * 0.8}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
       <line x1="${svgWidth}" y1="0" x2="${svgWidth}" y2="252" style="stroke:rgb(255,0,0);stroke-width:2" />
       
-      <!-- Kompetenz-Labels (eine Zeile tiefer) -->
-      <text font-size="10px" x="5" y="${yPositions[0] - 18}" fill="black">${kompetenzLabels[0]}</text>
-      <text font-size="10px" x="5" y="${yPositions[1] - 18}" fill="black">${kompetenzLabels[1]}</text>
-      <text font-size="10px" x="5" y="${yPositions[2] - 18}" fill="black">${kompetenzLabels[2]}</text>
-      <text font-size="10px" x="5" y="${yPositions[3] - 18}" fill="black">${kompetenzLabels[3]}</text>
-      <text font-size="10px" x="5" y="${yPositions[4] - 18}" fill="black">${kompetenzLabels[4]}</text>
-      <text font-size="10px" x="5" y="${yPositions[5] - 18}" fill="black">${kompetenzLabels[5]}</text>
+      <!-- Kompetenz-Labels -->
+      <text font-size="10px" x="5" y="18" fill="black">${kompetenzLabels[0]}</text>
+      <text font-size="10px" x="5" y="54" fill="black">${kompetenzLabels[1]}</text>
+      <text font-size="10px" x="5" y="90" fill="black">${kompetenzLabels[2]}</text>
+      <text font-size="10px" x="5" y="126" fill="black">${kompetenzLabels[3]}</text>
+      <text font-size="10px" x="5" y="162" fill="black">${kompetenzLabels[4]}</text>
+      <text font-size="10px" x="5" y="198" fill="black">${kompetenzLabels[5]}</text>
       
       <!-- Punkt-Labels -->
       <text font-size="10px" x="${labelWidth + graphWidth * 0.1}" y="18" fill="black" text-anchor="middle">1</text>
@@ -741,28 +648,28 @@ function drawProfileSVG(profilSVG, containerId, title) {
       <text font-size="10px" x="${labelWidth + graphWidth * 0.7}" y="18" fill="black" text-anchor="middle">4</text>
       <text font-size="10px" x="${labelWidth + graphWidth * 0.9}" y="18" fill="black" text-anchor="middle">5</text>
       
-      <!-- Profil-Linie (eine Zeile tiefer) -->
+      <!-- Profil-Linie -->
       <polyline
         fill="none"
         stroke="#0074d9"
         stroke-width="3"
         points="
-          ${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[0]}
-          ${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[1]}
-          ${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[2]}
-          ${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[3]}
-          ${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[4]}
-          ${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1},${yPositions[5]}
+          ${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1},18
+          ${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1},54
+          ${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1},90
+          ${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1},126
+          ${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1},162
+          ${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1},198
         "
       />
       
-      <!-- Punkte (eine Zeile tiefer) -->
-      <circle cx="${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[0]}" r="10" stroke="blue" stroke-width="5" fill="white" />
-      <circle cx="${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[1]}" r="10" stroke="blue" stroke-width="5" fill="white" />
-      <circle cx="${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[2]}" r="10" stroke="blue" stroke-width="5" fill="white" />
-      <circle cx="${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[3]}" r="10" stroke="blue" stroke-width="5" fill="white" />
-      <circle cx="${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[4]}" r="10" stroke="blue" stroke-width="5" fill="white" />
-      <circle cx="${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="${yPositions[5]}" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <!-- Punkte -->
+      <circle cx="${labelWidth + (profilSVG[0] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="18" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[1] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="54" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[2] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="90" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[3] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="126" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[4] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="162" r="10" stroke="blue" stroke-width="5" fill="white" />
+      <circle cx="${labelWidth + (profilSVG[5] - 1) * graphWidth * 0.2 + graphWidth * 0.1}" cy="198" r="10" stroke="blue" stroke-width="5" fill="white" />
     </svg>
   `;
   
@@ -903,9 +810,11 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', function() {
-  initSingleItemView();
+  initItems();
 });
 </script>
 
 </body>
+
 </html>
+
